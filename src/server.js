@@ -45,6 +45,14 @@ server.use(express.static("public"));
 // Estamos fazendo o 'link' atraves do require.
 // A função abaixo diz ao serve que devemos usar essas rotas.
 
+server.use(express.urlencoded({ express: true }));
+
+// Usando o req.body do routes
+// Para isso vamos abilitar a função que irá receber os dados do método POST.
+// Vamos usar as propriedades urlencoded que é do express.
+// Os dados do post vem codificados, por isso vamos usar a função do extended.
+// Assim podemos ler os dados sem probemas.
+
 server.use(routes);
 
 /*
