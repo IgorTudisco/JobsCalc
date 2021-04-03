@@ -22,6 +22,11 @@ const server = express();
 
 const routes = require("./routes");
 
+// Com o require é possível mudar a localização da pasta views.
+
+const path = require("path");
+
+
 /*
     ejs (Embedded JavaScript templating).
     Para instalar esse templating, vamos usar o comando npm i ejs.
@@ -32,6 +37,10 @@ const routes = require("./routes");
 */
 
 server.set('view engine', 'ejs');
+
+// Setando o meu servidor com o caminho/a minha localização/ o meu ambiente correto da views.
+
+server.set('views', path.join(__dirname, 'views'));
     
 /*
     Usamos o Midwhere para acessar as pastas públicas.
