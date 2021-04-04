@@ -18,45 +18,8 @@ const Profile = require('../model/Profile');
 */
 
 module.exports = {
-    index(req, res) {
 
-        // Como os dados estão em outro arquivo temos que chamar a função get.
-        // Para facilitar vamos criar um constante contendo os meus dados do Job e outra do Profile.
-        // Essa constante vai se tranformar em um array pois os nossos dados vem dentro de um array.
-
-        const jobs = Job.get();
-        const profile = Profile.get();
-
-        // Criando um novo array com map, passando o array jobs como base.
-
-        const updatedJobs = jobs.map((job) => {
-
-            // Chamando a função que calcula os dias.
-            // O Job.services virou Utils.
-
-            const remaining = JobUtils.remainingDays(job);
-
-            // Estatus de acondo os dias restantes.
-            // Usando um if ternário
-
-            const status = remaining <= 0 ? 'done' : 'progress';
-
-            // Retornando o novo array.
-
-            return {
-                ...job,
-                remaining,
-                status,
-
-                // O Job.services virou JobUtils.
-                // O Profile.data virou profiles
-
-                budget: JobUtils.calculateBudget(job, profile["value-hour"])
-            };
-        });
-
-        return res.render("index", { jobs: updatedJobs });
-    },
+    // O index foi enviado para o arquivo DashboardController.
 
     create(req, res) {
         return res.render("job");

@@ -17,6 +17,11 @@ const ProfileController = require('./controllers/ProfileController');
 
 const JobController = require('./controllers/JobController');
 
+// Importando o DashboardController
+
+const DashboardController = require('./controllers/DashboardController');
+
+
 /*
     Os browses tem a função get/ por isso devemos usar o argumento get.
     O get recebe como o primeito argumento a barra, para que quando ele
@@ -37,9 +42,9 @@ const JobController = require('./controllers/JobController');
 
 // O objeto literal job foi fatorado em controle, Util e model.
 
-// Apontando para a função controladora index do JobController.
+// Apontando para a função controladora index do DashboardController.
 
-routes.get('/', JobController.index);
+routes.get('/', DashboardController.index);
 
 // Apontando para a função controladora create do JobController.
 

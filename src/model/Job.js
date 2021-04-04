@@ -21,7 +21,7 @@ let data = [
     {
         id: 2,
         name: "OneTwo",
-        "daily-hours": 2,
+        "daily-hours": 3,
         "total-hours": 47,
         created_at: Date.now(),
         budget: 4500
