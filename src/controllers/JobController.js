@@ -36,8 +36,10 @@ module.exports = {
 
         const lastId = jobs[jobs.length - 1]?.id || 0;
 
-                
-        jobs.push({
+        // Passando a responsabilidade para o model.
+        // Chamando o método create() para dar o push nos meus dados.
+
+        Job.create({
             id: lastId + 1,
             name: req.body.name,
             "daily-hours": req.body["daily-hours"],

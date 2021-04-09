@@ -18,6 +18,7 @@ let data = [
         created_at: Date.now(),
         budget: 4500
     },
+
     {
         id: 2,
         name: "OneTwo",
@@ -28,8 +29,11 @@ let data = [
     }
 ];
 
-// Passando os métodos get () e update() para que os dados sejam exportatos e atualizados.
-
+/*
+    Passando os métodos get() e update() para que os dados sejam exportatos e atualizados.
+    Foram criados também o método delete() e create() para que a responsabilidade de criar
+    novos dados e deletar os antigos e errados fiquem no model.
+*/
 module.exports = {
     get() {
         return data;
@@ -47,4 +51,11 @@ module.exports = {
 
         data = data.filter(job => Number(job.id) !== Number(id));
     },
-}
+
+    create(newJob) {
+        
+        data.push(newJob);
+
+    },
+
+};
