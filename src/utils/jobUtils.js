@@ -32,8 +32,10 @@ module.exports = {
         const dayInMs = 1000 * 60 * 60 * 24;
 
         // O Math.floor() vai arredondar para baixo.
+        // Mudando de Math.floor() para Math.ceil(). Assim vamos corrigir um bag de tempo.
+        // O Math.ceil() vai arredondar para cima. Assim temos tempo para terminar alguma aplicação.
 
-        const dayDiff = Math.floor(timeDiffInMs / dayInMs);
+        const dayDiff = Math.ceil(timeDiffInMs / dayInMs);
         
         // restam x days
         
