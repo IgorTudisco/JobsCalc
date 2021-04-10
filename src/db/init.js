@@ -4,7 +4,7 @@
 
 // Importando o config.
 
-const Database = require('./config');
+const Database = require('./config.js');
 
 /*
     Para usar a propriedade await, devemos colocala dentro de um async.
@@ -36,7 +36,7 @@ const initDb = {
         // É ele quem vai passar os comandos para o driver.
         // Criando a tabela profile.
 
-        await db.exec(`CREATE TABLE profile(
+        await db.exec(`CREATE TABLE profile (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             name TEXT, 
             avatar TEXT, 
@@ -61,45 +61,45 @@ const initDb = {
         // Colocando os dados na tabela profile.
         // O run vai rodar a tabela.
 
-        await db.run(`INSERT INTO profile(
-            name,
-            avatar,
-            monthly_budget,
-            days_per_week,
-            hours_per_day,
+        await db.run(`INSERT INTO profile (
+            name, 
+            avatar, 
+            monthly_budget, 
+            days_per_week, 
+            hours_per_day, 
             vacation_per_year,
             value_hour
-        ) VALUES (
-            "Igor",
-            "https://avatars.githubusercontent.com/u/64790509?v=4",
-            3000,
-            5,
-            5,
-            4,
-            75
+         ) VALUES (
+             "Igor",
+             "https://avatars.githubusercontent.com/u/64790509?v=4",
+             3000,
+             5,
+             5,
+             4,
+             70
         );`);
 
         // Inserindo os dados na tabela jobs
 
-        await db.run(`INSERT INTO jobs(
-            name,
+        await db.run(`INSERT INTO jobs (
+            name, 
             daily_hours,
             total_hours,
             created_at
         ) VALUES (
-            "Pizzaria Gulozo",
+            "Pizzaria Guloso",
             2,
             1,
             1617514376018
         );`);
-
-        await db.run(`INSERT INTO jobs(
-            name,
+        
+            await db.run(`INSERT INTO jobs (
+            name, 
             daily_hours,
             total_hours,
             created_at
         ) VALUES (
-            "OneTow Projec",
+            "OneTwo Projects",
             3,
             47,
             1617514376018

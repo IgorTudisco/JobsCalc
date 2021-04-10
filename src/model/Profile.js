@@ -1,23 +1,10 @@
 // Esse arquivo é responsável pelos dados do perfil.
 
-/*
-    O objeto data que estava no routes e dentro do objeto Profile,
-    agora está dentro da pasta model dentro do arquivo Profile.
+// Importando o confing da pasta db.
 
-    O objeto literal virou a variável data.
-*/
+const Database = require('../db/config');
 
-let data = {
-
-    name: "Igor Tudisco",
-    avatar: "https://avatars.githubusercontent.com/u/64790509?v=4",
-    "monthly-budget": 3000,
-    "hours-per-day": 5,
-    "days-per-week": 5,
-    "vacation-per-year": 4,
-    "value-hour": 75
-
-};
+// O objeto data foi removido, porque agora os dados devem ficar no Banco de Dados.
 
 // Esse objeto irá retornar os dados.
 // Ele foi abilitado para exportação ao usar a propriedade esports.
@@ -25,11 +12,68 @@ let data = {
 // Para que os dados dejam atualizados, a função update foi criada.
 
 module.exports = {
-    get(){
-        return data;
+
+    // O nosso get vira async por conta do await.
+
+    async get(){
+
+        // Pegando os dados do banco de dados.
+
+        const db = await Database();
+
+        // Código SQL que irá trazer os meus dados do banco.
+        // Quardando as informações do banco em uma constante.
+        // Toda vez que for usar o banco vamos ter que usar o await.
+
+        const data = await db.get(`SELECT * FROM profile`);
+
+        // Fechando a aplicação do banco.
+
+        await db.close();
+
+        /*
+            Aqui temos um impasse.
+            Temos que decidir se os campos serão normalizados ou se o código entra no padrão do Bamco de dados.
+            O banco não aceita - somente _ mas o código foi escrito com -.
+            Ou seja, ou faz a normalização ou muda o código.
+            Nesse caso vamos normalizar os dados.
+            Na hora de retornar vamos passar os campos.
+        */
+
+        return {
+            name: data.name, 
+            avatar: data.avatar, 
+            "monthly-budget": data.monthly_budget, 
+            "days-per-week": data.days_per_week, 
+            "hours-per-day": data.hours_per_day, 
+            "vacation-per-year": data.vacation_per_year,
+            "value-hour": data.value_hour
+        };
+
     },
 
-    update(newData){
-        data = newData;
+    async update(newData){
+        
+        // Abrindo conexão com o banco.
+
+        const db = await Database();
+
+        // Passando od dados que vão ser alterados.
+        // Para passar o comando js dentro do comentário vamos usar o template string ${}.
+        // Lembrar de passar os dados de string entre aspas duplas.
+
+        await db.run(`UPDATE profile SET
+        name = "${newData.name}",
+        avatar = "${newData.avatar}",
+        monthly_budget = ${newData["monthly-budget"]},
+        days_per_week = ${newData["days-per-week"]},
+        hours_per_day = ${newData["hours-per-day"]},
+        vacation_per_year = ${newData["vacation-per-year"]},
+        value_hour = ${newData["value-hour"]}
+        `);
+
+        // Fechando a aplicação do banco.
+
+        await db.close();
     }
 }

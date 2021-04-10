@@ -16,17 +16,23 @@ const Profile = require('../model/Profile');
 
 module.exports = {
 
-    index(req, res) {
+    /*
+        Como o meu Profile.get() e o Profile.update() virarão async lá no model Profile.
+        Ao chamar essa função ele deve ter um await.
+        E toda função await tem que está dentro de um async.
+    */
+
+    async index(req, res) {
 
         /*
             Para que os dados sejam inseridos devemos chamar a função get,
-            que foi criada dentro do arquivo Profile que está na pasta mode.
+            que foi criada dentro do arquivo Profile que está na pasta mode.            
         */
 
-        return res.render("profile", { profile: Profile.get() });
+        return res.render("profile", { profile: await Profile.get() });
     },
 
-        update(req, res){
+        async update(req, res){
 
             /*
                 Temos que pegar o req.body.
@@ -61,12 +67,15 @@ module.exports = {
         /*
             Como os dados estão vindo de fora.
             Temos que pedir uma altorização para fazer as alteração que queremos.
-            Desse modu passamos os dados que serão alterados para dentro. Os mesmos serão usados
+            Desse modo passamos os dados que serão alterados para dentro. Os mesmos serão usados
             como parâmetros da nova função.
+            Passando as informações para a constante.
         */
 
-        Profile.update({
-            ...Profile.get(),
+        const profile = await Profile.get();
+
+        await Profile.update({
+            ...profile,
             ...req.body,
             "value-hour": valueHour
         });

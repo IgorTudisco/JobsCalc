@@ -34,29 +34,29 @@ const { open } = require('sqlite');
     Para resolver esse problema usamos arrow function.
     Assim falamos para o open que ele é uma função.
 
+    Quando temos apenas um item na arrow function, não precisamos e não devemos
+    envolve esse item em chaves.
+
 */
 
-module.exports = () => {
+module.exports = () => open({
 
-    open({
+    /*/database.sqlite
 
-        /*/database.sqlite
+        './database.sqlite é o nome do arquivo onde os meus dados estarão salvos,
+        essa caminha é passado para o meu filename para que o mesmo seja encontrado.
 
-            './database.sqlite é o nome do arquivo onde os meus dados estarão salvos,
-            essa caminha é passado para o meu filename para que o mesmo seja encontrado.
+    */
 
-        */
+    filename: "./database.sqlite",
 
-        filename: "./database.sqlite",
-    
-        /*
+    /*
 
-            O driver é o meu gerenciado do meu software de dados,
-            responsável por quarda os dados no meu aquivo.
-            
-        */
+        O driver é o meu gerenciado do meu software de dados,
+        responsável por quarda os dados no meu aquivo.
+        
+    */
 
-        driver: sqlite3.Database,
-    });
+    driver: sqlite3.Database,
+});
 
-};

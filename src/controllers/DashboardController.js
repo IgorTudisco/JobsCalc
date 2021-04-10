@@ -6,7 +6,7 @@ const Job = require('../model/Job');
 
 // Importando o JobUtils.
 
-const JobUtils = require('..//utils/jobUtils');
+const JobUtils = require('../utils/jobUtils');
 
 // Importando o Profile.
 
@@ -18,15 +18,21 @@ const Profile = require('../model/Profile');
 */
 
 module.exports = {
-    
-    index(req, res) {
+
+    /*
+        Como o meu get() virou async lá no model Profile.
+        Ao chamar essa função ele deve ter um await.
+        E toda função await tem que está dentro de um async.
+    */
+
+    async index(req, res) {
 
         // Como os dados estão em outro arquivo temos que chamar a função get.
         // Para facilitar vamos criar um constante contendo os meus dados do Job e outra do Profile.
         // Essa constante vai se tranformar em um array pois os nossos dados vem dentro de um array.
 
-        const jobs = Job.get();
-        const profile = Profile.get();
+        const jobs = await Job.get();
+        const profile = await Profile.get();
 
         // Criando a contagem do estatos dos jobs.
         // Esse objeto conterá o meu estato e vai me retornar o estatus dos jobs.

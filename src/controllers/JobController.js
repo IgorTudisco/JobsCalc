@@ -6,7 +6,7 @@ const Job = require('../model/Job');
 
 // Importando os controladores do arquivo JobController.
 
-const JobUtils = require('../utils/JobUtils');
+const JobUtils = require('../utils/jobUtils');
 
 // Importando os dados do arquivo do Profile.
 
@@ -25,22 +25,16 @@ module.exports = {
         return res.render("job");
     },
 
-    save(req, res) {
+    // O get() virou async lá no model job.
+    // Aqui ele vira await e o save async.
 
-        // Crinado uma váriavel get();
-
-        const jobs = Job.get();
-
-        // Id do array
-        // O sinal de ? significa que ele irá testar se existe o id que eu estou procurando.
-
-        const lastId = jobs[jobs.length - 1]?.id || 0;
+    async save(req, res) {
 
         // Passando a responsabilidade para o model.
         // Chamando o método create() para dar o push nos meus dados.
+        // O banco de dados vai definir o meu id.
 
-        Job.create({
-            id: lastId + 1,
+        await Job.create({
             name: req.body.name,
             "daily-hours": req.body["daily-hours"],
             "total-hours": req.body["total-hours"],
@@ -50,7 +44,7 @@ module.exports = {
         return res.redirect('/');
     },
 
-    show(req,res) {
+    async show(req,res) {
         
         // Buscando os parâmetros da requisição.
         // O nome do parâmetro deve ser o mesmo da url do método post.
@@ -59,7 +53,7 @@ module.exports = {
 
         // Crianda uma váriavel get() para trazer os meus dados do job.
 
-        const jobs = Job.get();
+        const jobs = await Job.get();
 
         // Usando o find para procurar o id dentro do nosso array.
         // Toda vez que ele encontrar o valor procurado ele vai executar a função dentro dele.
@@ -76,7 +70,7 @@ module.exports = {
         
         // Criando uma constante para get() para trazer os meus dados do profile.
 
-        const profile = Profile.get();
+        const profile = await Profile.get();
 
         // Passando o calculo do budget para o job
         // O Job.services virou o JobUtils
@@ -88,54 +82,33 @@ module.exports = {
         return res.render("job-edit", { job });
     },
 
-    update(req, res) {
+    async update(req, res) {
 
         // Procurando o Id e fazendo o teste com o mesmo igual na função show.
 
         const jobId = req.params.id;
 
-        // Criando uma constante para get() Para trazer os meus dados de job.
-
-        const jobs = Job.get();
-
-        const job = jobs.find(job => Number(job.id) === Number(jobId));
-
-        if(!job){
-            return res.send('Job not find');
-        };
+        // Não preciso mais trazer os dados do job desse jeito.
 
         // Fazendo a atualização nos jobs.
 
         const updateJob = {
-            ...job,
             name: req.body.name,
-            "total-hours": req.body["total-hours"],
-            "daily-hours": req.body["daily-hours"]
+            "daily-hours": req.body["daily-hours"],
+            "total-hours": req.body["total-hours"]
         };
 
-        // O map vai verificar se teve alguma alteração no meu array.
-        // Criando uma constante com o meu novo job.
-
-        const newJob = jobs.map(job => {
-
-            if(Number(job.id) === Number(jobId)){
-
-                job = updateJob;
-
-            };
-
-            return job;
-        });
+        // Não preciso mais dessa verificação.
 
         // Chamando o meu método update() do Job.
 
-        Job.update(newJob);
+        await Job.update(updateJob, jobId);
 
         res.redirect('/job/' + jobId);
 
     },
 
-    delete(req, res) {
+    async delete(req, res) {
 
         // Pegando o parâmetro id
 
@@ -144,7 +117,7 @@ module.exports = {
         // Passamos a responsabilidade de deletar para o model.
         // Chamando a propriedade delete.
 
-        Job.delete(jobId);
+        await Job.delete(jobId);
 
         // Retornando para a página inicinal
 
